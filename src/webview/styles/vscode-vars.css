@@ -1,0 +1,89 @@
+/* 
+  VS Code UI Foundations
+  Include this file in all webviews to establish base styling
+  that respects the user's VS Code theme.
+*/
+
+:root {
+  /* Base Spacing Scale (Primer/VS Code aesthetic) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+}
+
+/* Reset and Base Typography */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--vscode-font-family);
+  font-size: var(--vscode-font-size);
+  font-weight: var(--vscode-font-weight);
+  color: var(--vscode-foreground);
+  background-color: transparent; /* Use container-specific backgrounds */
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+/* Typography Utilities */
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: var(--space-2);
+  color: var(--vscode-foreground);
+}
+
+a {
+  color: var(--vscode-textLink-foreground);
+  text-decoration: none;
+}
+
+a:hover,
+a:active {
+  color: var(--vscode-textLink-activeForeground);
+  text-decoration: underline;
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: var(--space-3);
+  line-height: 1.5;
+}
+
+.text-muted {
+  color: var(--vscode-descriptionForeground);
+}
+
+.text-error {
+  color: var(--vscode-errorForeground);
+}
+
+/* Common Layout Utilities */
+.container {
+  padding: var(--space-3);
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+/* Focus Management for Custom Elements */
+*:focus-visible {
+  outline: 1px solid var(--vscode-focusBorder);
+  outline-offset: -1px;
+}

@@ -1,7 +1,8 @@
 {
   "name": "gh-aw-inspector",
   "displayName": "GH Agentic Workflows Inspector",
-  "description": "Inspects and simulates gh-aw (agentic workflows)",
+  "description": "A VS Code extension designed to interface with the GitHub Agentic Workflows CLI (gh aw).",
+  "icon": "resources/gh-aw-inspector.svg",
   "version": "0.1.0",
   "engines": {
     "vscode": "^1.85.0"
@@ -9,15 +10,33 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "gh-aw-inspector.helloWorld",
-        "title": "Hello World"
+        "command": "gh-aw-inspector.startSimulation",
+        "title": "GH AW: Start Simulation",
+        "icon": "$(play)"
       }
-    ]
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "gh-aw-inspector",
+          "title": "GH Agentic Workflows",
+          "icon": "resources/gh-aw-inspector.svg"
+        }
+      ]
+    },
+    "views": {
+      "gh-aw-inspector": [
+        {
+          "type": "webview",
+          "id": "gh-aw-inspector-sidebar",
+          "name": "Workflows"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -28,9 +47,11 @@
     "lint": "eslint src --ext ts"
   },
   "devDependencies": {
-    "@types/vscode": "^1.85.0",
     "@types/node": "18.x",
-    "typescript": "^5.3.3",
-    "eslint": "^8.56.0"
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^8.56.0",
+    "@typescript-eslint/parser": "^8.56.0",
+    "eslint": "^8.57.1",
+    "typescript": "^5.3.3"
   }
 }

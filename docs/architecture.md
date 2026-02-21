@@ -22,7 +22,7 @@ The implementation of this extension should adhere to the following architecture
    - Captures `stdout` and `stderr` robustly, preventing the UI from blocking.
 
 4. **Markdown Generator (`src/generators/MarkdownBuilder.ts`)**: 
-   - Takes the output from the `CommandRunner`.
+   - Takes the output from the CLI and pipes it through the evaluation prompt located at `src/prompts/evaluate-gh-aw.md`.
    - Formats the returned outputs into rich markdown files containing Description, Metadata, Prerequisites, Intent, and happy/unhappy paths.
    - Uses VS Code's `workspace.openTextDocument` to display the generated Markdown file to the user.
 

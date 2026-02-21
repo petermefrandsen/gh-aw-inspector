@@ -19,6 +19,6 @@ This extension provides a dedicated interface within VS Code to inspect, run, an
   - **Example unhappy path outputs**: Common failures and errors.
 
 ## Development & Setup
-Please see [CONTRIBUTING.md](CONTRIBUTING.md) for how to get started locally. 
+Please see [CONTRIBUTING.md](CONTRIBUTING.md) for how to get started locally. Note that agentic development instructions (AI Skills) are located in `.github/skills/`.
 
-*Note: The core extension logic is still pending implementation.*
+*Note: The core extension logic is still pending implementation. Prompts are located in `src/prompts/`.*

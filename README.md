@@ -1,8 +1,8 @@
 # GH AW Inspector
 
-**GH AW Inspector** is a VS Code extension designed to interface with the GitHub Agentic Workflows CLI (`gh aw`). GitHub Agentic Workflows enable users to define and execute tasks using AI agents within GitHub Actions using Markdown files.
+**GH AW Inspector** is a VS Code extension that can use any agentic / AI CLI under the hood, but is specifically tailored for inspecting and simulating the GitHub Agentic Workflows CLI (`gh aw`). GitHub Agentic Workflows enable users to define and execute tasks using AI agents within GitHub Actions using Markdown files.
 
-This extension provides a dedicated interface within VS Code to inspect, run, and simulate these workflows without leaving your editor.
+This extension provides a dedicated interface within VS Code to inspect, run, and simulate these tools without leaving your editor.
 
 ## Motivation & Features
 - **Sidebar Commands**: Quickly execute common `gh aw` CLI commands:

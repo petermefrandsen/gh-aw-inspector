@@ -2,7 +2,6 @@
   "name": "gh-aw-inspector",
   "displayName": "GH Agentic Workflows Inspector",
   "description": "A VS Code extension designed to interface with the GitHub Agentic Workflows CLI (gh aw).",
-  "icon": "resources/gh-aw-inspector.svg",
   "version": "0.1.0",
   "engines": {
     "vscode": "^1.85.0"
@@ -33,7 +32,8 @@
         {
           "type": "webview",
           "id": "gh-aw-inspector-sidebar",
-          "name": "Workflows"
+          "name": "Workflows",
+          "icon": "resources/gh-aw-inspector.svg"
         }
       ]
     }

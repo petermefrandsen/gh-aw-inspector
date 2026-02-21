@@ -1,6 +1,6 @@
 # GH AW Inspector Architecture
 
-The overarching goal is to parse and simulate `gh aw` CLI commands in a sandboxed or mocked VS Code extension environment.
+The overarching goal is to provide a shell that can use any agentic / AI CLI under the hood, specifically focusing on parsing and simulating `gh aw` CLI commands in a sandboxed or mocked VS Code extension environment.
 
 ## AI Implementation Guidelines
 

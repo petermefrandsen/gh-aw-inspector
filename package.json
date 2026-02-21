@@ -1,0 +1,36 @@
+{
+  "name": "gh-aw-inspector",
+  "displayName": "GH Agentic Workflows Inspector",
+  "description": "Inspects and simulates gh-aw (agentic workflows)",
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "gh-aw-inspector.helloWorld",
+        "title": "Hello World"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "test": "echo 'No unit tests yet'",
+    "test:e2e": "echo 'No playwright tests yet'",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.85.0",
+    "@types/node": "18.x",
+    "typescript": "^5.3.3",
+    "eslint": "^8.56.0"
+  }
+}

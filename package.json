@@ -3,6 +3,11 @@
   "displayName": "GH Agentic Workflows Inspector",
   "description": "A VS Code extension designed to interface with the GitHub Agentic Workflows CLI (gh aw).",
   "version": "0.1.0",
+  "publisher": "petermefrandsen",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/petermefrandsen/gh-aw-inspector"
+  },
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -42,16 +47,27 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "test": "echo 'No unit tests yet'",
-    "test:e2e": "echo 'No playwright tests yet'",
+    "test": "node ./out/test/runTest.js",
+    "test:e2e": "extest run-tests ./out/test/e2e/*.test.js test-workspace",
     "lint": "eslint src --ext ts"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/glob": "^8.1.0",
+    "@types/mocha": "^10.0.10",
     "@types/node": "18.x",
     "@types/vscode": "^1.85.0",
     "@typescript-eslint/eslint-plugin": "^8.56.0",
     "@typescript-eslint/parser": "^8.56.0",
+    "@vscode/test-electron": "^2.5.2",
     "eslint": "^8.57.1",
-    "typescript": "^5.3.3"
+    "mocha": "^11.7.5",
+    "proxyquire": "^2.1.3",
+    "typescript": "^5.3.3",
+    "vscode-extension-tester": "^8.22.0"
+  },
+  "dependencies": {
+    "@vscode/codicons": "^0.0.44",
+    "@vscode/webview-ui-toolkit": "^1.4.0"
   }
 }

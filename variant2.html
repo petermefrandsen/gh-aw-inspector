@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Simulation Launcher Variant 2</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#16ca52",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#0d1117",
+                        "surface-dark": "#161b22",
+                        "border-dark": "#30363d",
+                        "secondary-text": "#8b949e",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .code-block {
+            font-family: 'JetBrains Mono', monospace;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Header / Navigation -->
+<header class="sticky top-0 z-50 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md border-b border-slate-200 dark:border-border-dark px-4 py-3 flex items-center gap-3">
+<button class="text-secondary-text hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[20px]">arrow_back_ios</span>
+</button>
+<div class="flex flex-col overflow-hidden">
+<div class="flex items-center gap-1 text-[10px] uppercase tracking-wider text-secondary-text font-semibold truncate">
+<span>repo</span>
+<span class="material-symbols-outlined text-[10px]">chevron_right</span>
+<span>workflows</span>
+</div>
+<h1 class="text-sm font-bold truncate">auto-triage.md</h1>
+</div>
+<div class="ml-auto flex items-center gap-2">
+<button class="p-1 text-secondary-text">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+</header>
+<!-- Scrollable Content -->
+<main class="flex-1 overflow-y-auto pb-24">
+<!-- Workflow Overview Card -->
+<section class="p-4">
+<div class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-lg overflow-hidden shadow-sm">
+<div class="p-4 border-b border-slate-200 dark:border-border-dark flex items-center justify-between">
+<h3 class="text-sm font-semibold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">info</span>
+                        Workflow Overview
+                    </h3>
+<span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-bold border border-primary/20 uppercase tracking-tighter">Active</span>
+</div>
+<div class="p-4 space-y-4">
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-1">
+<p class="text-[11px] text-secondary-text font-medium uppercase tracking-tight">Triggers</p>
+<div class="flex flex-wrap gap-1">
+<span class="bg-slate-100 dark:bg-slate-800 text-[11px] px-2 py-0.5 rounded border border-slate-200 dark:border-border-dark flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">bolt</span> issue_comment
+                                </span>
+<span class="bg-slate-100 dark:bg-slate-800 text-[11px] px-2 py-0.5 rounded border border-slate-200 dark:border-border-dark flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">bolt</span> pull_request
+                                </span>
+</div>
+</div>
+<div class="space-y-1">
+<p class="text-[11px] text-secondary-text font-medium uppercase tracking-tight">Tools</p>
+<div class="flex flex-wrap gap-1">
+<span class="bg-slate-100 dark:bg-slate-800 text-[11px] px-2 py-0.5 rounded border border-slate-200 dark:border-border-dark flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">search</span> web-search
+                                </span>
+<span class="bg-slate-100 dark:bg-slate-800 text-[11px] px-2 py-0.5 rounded border border-slate-200 dark:border-border-dark flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">folder_managed</span> repo-man
+                                </span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Execution Environment -->
+<section class="px-4 space-y-4">
+<div class="flex items-center gap-2 pb-1">
+<span class="material-symbols-outlined text-secondary-text text-[20px]">terminal</span>
+<h3 class="text-sm font-semibold">Execution Environment</h3>
+</div>
+<div class="space-y-4">
+<!-- CLI Dropdown -->
+<div class="space-y-1.5">
+<label class="text-[11px] text-secondary-text font-medium uppercase ml-1">CLI Version</label>
+<div class="relative">
+<select class="w-full bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-lg px-3 py-2 text-sm appearance-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all">
+<option>gh-aw v1.2.0 (latest)</option>
+<option>gh-aw v1.1.5</option>
+<option>gh-aw v1.0.0</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-secondary-text">unfold_more</span>
+</div>
+</div>
+<!-- Model Dropdown -->
+<div class="space-y-1.5">
+<label class="text-[11px] text-secondary-text font-medium uppercase ml-1">Model Selection</label>
+<div class="relative">
+<select class="w-full bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-lg px-3 py-2 text-sm appearance-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all">
+<option>gpt-4o-latest</option>
+<option>claude-3-5-sonnet-20240620</option>
+<option>gpt-4-turbo</option>
+<option>gemini-1.5-pro</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-secondary-text">unfold_more</span>
+</div>
+</div>
+<!-- Verbosity Toggle -->
+<div class="space-y-1.5">
+<label class="text-[11px] text-secondary-text font-medium uppercase ml-1">Verbosity Level</label>
+<div class="grid grid-cols-4 gap-1 p-1 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-border-dark">
+<button class="py-1.5 text-[11px] font-semibold rounded bg-white dark:bg-surface-dark shadow-sm border border-slate-200 dark:border-border-dark text-slate-900 dark:text-slate-100">Silent</button>
+<button class="py-1.5 text-[11px] font-semibold rounded text-secondary-text hover:text-slate-900 dark:hover:text-slate-100">Info</button>
+<button class="py-1.5 text-[11px] font-semibold rounded text-secondary-text hover:text-slate-900 dark:hover:text-slate-100">Debug</button>
+<button class="py-1.5 text-[11px] font-semibold rounded text-secondary-text hover:text-slate-900 dark:hover:text-slate-100">Trace</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Event Payload Section -->
+<section class="p-4 mt-2">
+<details class="group bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark rounded-lg overflow-hidden shadow-sm open:ring-1 open:ring-primary/30" open="">
+<summary class="flex items-center justify-between p-4 cursor-pointer list-none">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary-text text-[20px]">code</span>
+<h3 class="text-sm font-semibold">Event Payload</h3>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded transition-colors text-secondary-text" title="Copy payload">
+<span class="material-symbols-outlined text-[18px]">content_copy</span>
+</button>
+<span class="material-symbols-outlined transition-transform group-open:rotate-180 text-secondary-text">expand_more</span>
+</div>
+</summary>
+<div class="p-4 pt-0">
+<div class="code-block bg-slate-900 text-slate-300 p-3 rounded-lg text-[12px] leading-relaxed overflow-x-auto border border-border-dark">
+<pre><code>{
+  <span class="text-primary">"action"</span>: <span class="text-amber-400">"created"</span>,
+  <span class="text-primary">"issue"</span>: {
+    <span class="text-primary">"number"</span>: <span class="text-blue-400">123</span>,
+    <span class="text-primary">"title"</span>: <span class="text-amber-400">"Bug: App crashes on launch"</span>,
+    <span class="text-primary">"user"</span>: { <span class="text-primary">"login"</span>: <span class="text-amber-400">"octocat"</span> }
+  },
+  <span class="text-primary">"comment"</span>: {
+    <span class="text-primary">"body"</span>: <span class="text-amber-400">"/triage check-logs"</span>
+  }
+}</code></pre>
+</div>
+</div>
+</details>
+</section>
+<!-- Spacer for FAB -->
+<div class="h-20"></div>
+</main>
+<!-- Bottom Action Bar -->
+<div class="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background-light dark:from-background-dark via-background-light dark:via-background-dark to-transparent">
+<button class="w-full bg-primary hover:bg-primary/90 text-background-dark font-bold py-4 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[20px]">play_arrow</span>
+            Run Simulation
+        </button>
+</div>
+<!-- Bottom Navigation Component (simplified for Simulation Launcher context) -->
+<nav class="fixed bottom-0 left-0 right-0 hidden">
+<!-- Hidden as we prioritize the Run Simulation action on mobile configuration screens -->
+</nav>
+</body></html>

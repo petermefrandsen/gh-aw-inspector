@@ -14,8 +14,12 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Register the command to start the simulation
     context.subscriptions.push(
-        vscode.commands.registerCommand('gh-aw-inspector.startSimulation', () => {
-            SimulationPanel.createOrShow(context.extensionUri);
+        vscode.commands.registerCommand('gh-aw-inspector.startSimulation', (workflowObj: { name: string, fsPath: string } | string) => {
+            if (typeof workflowObj === 'string') {
+                vscode.window.showErrorMessage('Failed to start simulation, outdated message format.');
+                return;
+            }
+            SimulationPanel.createOrShow(context.extensionUri, workflowObj.fsPath, workflowObj.name);
         })
     );
 }

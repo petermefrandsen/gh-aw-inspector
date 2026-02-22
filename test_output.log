@@ -1,0 +1,130 @@
+
+> gh-aw-inspector@0.1.0 test
+> node ./out/test/runTest.js
+
+- Resolving version...
+✔ Validated version: 1.109.5
+✔ Found existing install in /home/petermefrandsen/src/gh-aw-inspector/.vscode-test/vscode-linux-x64-1.109.5
+[80102:0222/212057.841189:ERROR:dbus/bus.cc:408] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+pci id for fd 28: 10de:2803, driver (null)
+pci id for fd 29: 10de:2803, driver (null)
+pci id for fd 30: 10de:2803, driver (null)
+pci id for fd 29: 10de:2803, driver (null)
+pci id for fd 30: 10de:2803, driver (null)
+pci id for fd 53: 10de:2803, driver (null)
+pci id for fd 54: 10de:2803, driver (null)
+pci id for fd 55: 10de:2803, driver (null)
+pci id for fd 54: 10de:2803, driver (null)
+pci id for fd 55: 10de:2803, driver (null)
+[80102:0222/212058.479796:ERROR:dbus/bus.cc:408] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[80102:0222/212058.479940:ERROR:dbus/bus.cc:408] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+Gtk-Message: 21:20:58.521: Failed to load module "colorreload-gtk-module"
+pci id for fd 9: 10de:2803, driver (null)
+pci id for fd 10: 10de:2803, driver (null)
+pci id for fd 11: 10de:2803, driver (null)
+pci id for fd 10: 10de:2803, driver (null)
+pci id for fd 11: 10de:2803, driver (null)
+[80208:0222/212058.705479:ERROR:media/gpu/vaapi/vaapi_wrapper.cc:1631] vaInitialize failed: unknown libva error
+[80208:0222/212058.708845:ERROR:components/viz/service/main/viz_main_impl.cc:189] Exiting GPU process due to errors during initialization
+[80102:0222/212058.756846:ERROR:dbus/bus.cc:408] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[80102:0222/212058.756901:ERROR:dbus/bus.cc:408] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[80102:0222/212058.756947:ERROR:dbus/bus.cc:408] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+pci id for fd 9: 10de:2803, driver (null)
+pci id for fd 10: 10de:2803, driver (null)
+pci id for fd 11: 10de:2803, driver (null)
+pci id for fd 10: 10de:2803, driver (null)
+pci id for fd 11: 10de:2803, driver (null)
+[90m[main 2026-02-22T20:20:58.869Z][0m update#setState disabled
+[90m[main 2026-02-22T20:20:58.871Z][0m update#ctor - updates are disabled by the environment
+[80261:0222/212058.874922:ERROR:media/gpu/vaapi/vaapi_wrapper.cc:1631] vaInitialize failed: unknown libva error
+[80261:0222/212058.879586:ERROR:components/viz/service/main/viz_main_impl.cc:189] Exiting GPU process due to errors during initialization
+pci id for fd 9: 10de:2803, driver (null)
+pci id for fd 10: 10de:2803, driver (null)
+pci id for fd 11: 10de:2803, driver (null)
+pci id for fd 10: 10de:2803, driver (null)
+pci id for fd 11: 10de:2803, driver (null)
+[80320:0222/212059.022191:ERROR:media/gpu/vaapi/vaapi_wrapper.cc:1631] vaInitialize failed: unknown libva error
+[80320:0222/212059.024571:ERROR:components/viz/service/main/viz_main_impl.cc:189] Exiting GPU process due to errors during initialization
+pci id for fd 9: 10de:2803, driver (null)
+pci id for fd 10: 10de:2803, driver (null)
+pci id for fd 11: 10de:2803, driver (null)
+pci id for fd 10: 10de:2803, driver (null)
+pci id for fd 11: 10de:2803, driver (null)
+[80400:0222/212059.119598:ERROR:media/gpu/vaapi/vaapi_wrapper.cc:1631] vaInitialize failed: unknown libva error
+Started local extension host with pid 80542.
+Loading development extension at /home/petermefrandsen/src/gh-aw-inspector
+MCP Registry configured: https://api.mcp.github.com
+Settings Sync: Account status changed from uninitialized to unavailable
+ReferenceError: describe is not defined
+	at Object.<anonymous> (/home/petermefrandsen/src/gh-aw-inspector/out/test/e2e/Sidebar.test.js:38:1)
+	at Module._compile (node:internal/modules/cjs/loader:1714:14)
+	at Module._extensions..js (node:internal/modules/cjs/loader:1848:10)
+	at Module.load (node:internal/modules/cjs/loader:1448:32)
+	at Module._load (node:internal/modules/cjs/loader:1270:12)
+	at c._load (node:electron/js2c/node_init:2:17993)
+	at e._load (file:///home/petermefrandsen/src/gh-aw-inspector/.vscode-test/vscode-linux-x64-1.109.5/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:405:6055)
+	at t._load (file:///home/petermefrandsen/src/gh-aw-inspector/.vscode-test/vscode-linux-x64-1.109.5/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:223:22773)
+	at s._load (file:///home/petermefrandsen/src/gh-aw-inspector/.vscode-test/vscode-linux-x64-1.109.5/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:215:24706)
+	at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+	at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+	at Module.require (node:internal/modules/cjs/loader:1470:12)
+	at require (node:internal/modules/helpers:147:16)
+	at /home/petermefrandsen/src/gh-aw-inspector/node_modules/mocha/lib/mocha.js:396:36
+	at Array.forEach (<anonymous>)
+	at Mocha.loadFiles (/home/petermefrandsen/src/gh-aw-inspector/node_modules/mocha/lib/mocha.js:393:14)
+	at Mocha.run (/home/petermefrandsen/src/gh-aw-inspector/node_modules/mocha/lib/mocha.js:960:10)
+	at /home/petermefrandsen/src/gh-aw-inspector/out/test/suite/index.js:60:23
+	at f (/home/petermefrandsen/src/gh-aw-inspector/node_modules/once/once.js:25:25)
+	at Glob.<anonymous> (/home/petermefrandsen/src/gh-aw-inspector/node_modules/glob/glob.js:148:7)
+	at Glob.emit (node:events:519:28)
+	at Glob._finish (/home/petermefrandsen/src/gh-aw-inspector/node_modules/glob/glob.js:194:8)
+	at done (/home/petermefrandsen/src/gh-aw-inspector/node_modules/glob/glob.js:179:14)
+	at Glob._processGlobStar2 (/home/petermefrandsen/src/gh-aw-inspector/node_modules/glob/glob.js:637:12)
+	at /home/petermefrandsen/src/gh-aw-inspector/node_modules/glob/glob.js:626:10
+	at RES (/home/petermefrandsen/src/gh-aw-inspector/node_modules/inflight/inflight.js:31:16)
+	at f (/home/petermefrandsen/src/gh-aw-inspector/node_modules/once/once.js:25:25)
+	at lstatcb_ (/home/petermefrandsen/src/gh-aw-inspector/node_modules/glob/glob.js:519:7)
+	at RES (/home/petermefrandsen/src/gh-aw-inspector/node_modules/inflight/inflight.js:31:16)
+	at f (/home/petermefrandsen/src/gh-aw-inspector/node_modules/once/once.js:25:25)
+	at FSReqCallback.oncomplete (node:fs:199:5)
+ReferenceError: describe is not defined
+	at Object.<anonymous> (/home/petermefrandsen/src/gh-aw-inspector/out/test/e2e/Sidebar.test.js:38:1)
+	at Module._compile (node:internal/modules/cjs/loader:1714:14)
+	at Module._extensions..js (node:internal/modules/cjs/loader:1848:10)
+	at Module.load (node:internal/modules/cjs/loader:1448:32)
+	at Module._load (node:internal/modules/cjs/loader:1270:12)
+	at c._load (node:electron/js2c/node_init:2:17993)
+	at e._load (file:///home/petermefrandsen/src/gh-aw-inspector/.vscode-test/vscode-linux-x64-1.109.5/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:405:6055)
+	at t._load (file:///home/petermefrandsen/src/gh-aw-inspector/.vscode-test/vscode-linux-x64-1.109.5/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:223:22773)
+	at s._load (file:///home/petermefrandsen/src/gh-aw-inspector/.vscode-test/vscode-linux-x64-1.109.5/resources/app/out/vs/workbench/api/node/extensionHostProcess.js:215:24706)
+	at TracingChannel.traceSync (node:diagnostics_channel:328:14)
+	at wrapModuleLoad (node:internal/modules/cjs/loader:244:24)
+	at Module.require (node:internal/modules/cjs/loader:1470:12)
+	at require (node:internal/modules/helpers:147:16)
+	at /home/petermefrandsen/src/gh-aw-inspector/node_modules/mocha/lib/mocha.js:396:36
+	at Array.forEach (<anonymous>)
+	at Mocha.loadFiles (/home/petermefrandsen/src/gh-aw-inspector/node_modules/mocha/lib/mocha.js:393:14)
+	at Mocha.run (/home/petermefrandsen/src/gh-aw-inspector/node_modules/mocha/lib/mocha.js:960:10)
+	at /home/petermefrandsen/src/gh-aw-inspector/out/test/suite/index.js:60:23
+	at f (/home/petermefrandsen/src/gh-aw-inspector/node_modules/once/once.js:25:25)
+	at Glob.<anonymous> (/home/petermefrandsen/src/gh-aw-inspector/node_modules/glob/glob.js:148:7)
+	at Glob.emit (node:events:519:28)
+	at Glob._finish (/home/petermefrandsen/src/gh-aw-inspector/node_modules/glob/glob.js:194:8)
+	at done (/home/petermefrandsen/src/gh-aw-inspector/node_modules/glob/glob.js:179:14)
+	at Glob._processGlobStar2 (/home/petermefrandsen/src/gh-aw-inspector/node_modules/glob/glob.js:637:12)
+	at /home/petermefrandsen/src/gh-aw-inspector/node_modules/glob/glob.js:626:10
+	at RES (/home/petermefrandsen/src/gh-aw-inspector/node_modules/inflight/inflight.js:31:16)
+	at f (/home/petermefrandsen/src/gh-aw-inspector/node_modules/once/once.js:25:25)
+	at lstatcb_ (/home/petermefrandsen/src/gh-aw-inspector/node_modules/glob/glob.js:519:7)
+	at RES (/home/petermefrandsen/src/gh-aw-inspector/node_modules/inflight/inflight.js:31:16)
+	at f (/home/petermefrandsen/src/gh-aw-inspector/node_modules/once/once.js:25:25)
+	at FSReqCallback.oncomplete (node:fs:199:5)
+[90m[main 2026-02-22T20:21:03.268Z][0m Extension host with pid 80542 exited with code: 0, signal: unknown.
+Exit code:   1
+Failed to run tests TestRunFailedError: Test run failed with code 1
+    at ChildProcess.onProcessClosed (/home/petermefrandsen/src/gh-aw-inspector/node_modules/@vscode/test-electron/out/runTest.js:110:24)
+    at ChildProcess.emit (node:events:519:28)
+    at ChildProcess._handle.onexit (node:internal/child_process:293:12) {
+  code: 1,
+  signal: undefined
+}

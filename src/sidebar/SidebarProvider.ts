@@ -3,6 +3,7 @@ import * as path from "path";
 
 interface WorkflowState {
     name: string;
+    fsPath: string;
     status: 'none' | 'success' | 'warning' | 'error';
 }
 
@@ -67,7 +68,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                 const name = path.basename(file.fsPath);
                 console.log(`GH-AW Inspector: Added workflow -> ${name} from ${file.fsPath}`);
                 // Default to 'none' (grey). Future implementation could query specific CI status here.
-                workflows.push({ name, status: 'none' });
+                workflows.push({ name, fsPath: file.fsPath, status: 'none' });
             }
         } catch (e) {
             console.error("GH-AW Inspector: Failed to search for workflows", e);
@@ -309,12 +310,12 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                         vscode.postMessage({ type: 'refresh' });
                     }
 
-                    function startSimulation(workflowName) {
-                        vscode.postMessage({ type: 'startSimulation', value: workflowName });
+                    function startSimulation(encodedName, encodedFsPath) {
+                        vscode.postMessage({ type: 'startSimulation', value: { name: decodeURIComponent(encodedName), fsPath: decodeURIComponent(encodedFsPath) } });
                     }
                     
-                    function debugWorkflow(workflowName) {
-                        vscode.postMessage({ type: 'debugWorkflow', value: workflowName });
+                    function debugWorkflow(encodedName) {
+                        vscode.postMessage({ type: 'debugWorkflow', value: decodeURIComponent(encodedName) });
                     }
 
                     // Listen for updates from the extension
@@ -350,11 +351,11 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                             html += '    <div class="tree-actions">';
                                 
                             if(fw.status === 'error'){
-                               html += '        <button class="icon-action" title="Debug" onclick="debugWorkflow(\\'' + fw.name + '\\')">';
+                               html += '        <button class="icon-action" title="Debug" onclick="debugWorkflow(\\'' + encodeURIComponent(fw.name) + '\\')">';
                                html += '            <i class="codicon codicon-bug"></i>';
                                html += '        </button>';
                             } else {
-                                html += '        <button class="icon-action" title="Run Simulation" onclick="startSimulation(\\'' + fw.name + '\\')">';
+                                html += '        <button class="icon-action" title="Run Simulation" onclick="startSimulation(\\'' + encodeURIComponent(fw.name) + '\\', \\'' + encodeURIComponent(fw.fsPath) + '\\')">';
                                 html += '            <i class="codicon codicon-play"></i>';
                                 html += '        </button>';
                             }

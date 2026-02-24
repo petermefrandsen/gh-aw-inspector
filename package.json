@@ -9,7 +9,7 @@
     "url": "https://github.com/petermefrandsen/gh-aw-inspector"
   },
   "engines": {
-    "vscode": "^1.85.0"
+    "vscode": "^1.90.0"
   },
   "categories": [
     "Other"
@@ -18,8 +18,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "gh-aw-inspector.startSimulation",
-        "title": "GH AW: Start Simulation",
+        "command": "gh-aw-inspector.startEvaluation",
+        "title": "GH AW: Start Evaluation",
         "icon": "$(play)"
       }
     ],

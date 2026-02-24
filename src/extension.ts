@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { SidebarProvider } from './sidebar/SidebarProvider';
-import { SimulationPanel } from './panels/SimulationPanel';
+import { EvaluationPanel } from './panels/EvaluationPanel';
 
 export function activate(context: vscode.ExtensionContext) {
     // Register the Sidebar Provider
@@ -12,14 +12,14 @@ export function activate(context: vscode.ExtensionContext) {
         )
     );
 
-    // Register the command to start the simulation
+    // Register the command to start an evaluation
     context.subscriptions.push(
-        vscode.commands.registerCommand('gh-aw-inspector.startSimulation', (workflowObj: { name: string, fsPath: string } | string) => {
+        vscode.commands.registerCommand('gh-aw-inspector.startEvaluation', (workflowObj: { name: string, fsPath: string } | string) => {
             if (typeof workflowObj === 'string') {
-                vscode.window.showErrorMessage('Failed to start simulation, outdated message format.');
+                vscode.window.showErrorMessage('Failed to start evaluation, outdated message format.');
                 return;
             }
-            SimulationPanel.createOrShow(context.extensionUri, workflowObj.fsPath, workflowObj.name);
+            EvaluationPanel.createOrShow(context.extensionUri, workflowObj.fsPath, workflowObj.name);
         })
     );
 }

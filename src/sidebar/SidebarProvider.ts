@@ -29,8 +29,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                     await this._updateWorkflows();
                     break;
                 }
-                case "startSimulation": {
-                    vscode.commands.executeCommand('gh-aw-inspector.startSimulation', data.value);
+                case "startEvaluation": {
+                    vscode.commands.executeCommand('gh-aw-inspector.startEvaluation', data.value);
                     break;
                 }
                 case "debugWorkflow": {
@@ -310,8 +310,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                         vscode.postMessage({ type: 'refresh' });
                     }
 
-                    function startSimulation(encodedName, encodedFsPath) {
-                        vscode.postMessage({ type: 'startSimulation', value: { name: decodeURIComponent(encodedName), fsPath: decodeURIComponent(encodedFsPath) } });
+                    function startEvaluation(encodedName, encodedFsPath) {
+                        vscode.postMessage({ type: 'startEvaluation', value: { name: decodeURIComponent(encodedName), fsPath: decodeURIComponent(encodedFsPath) } });
                     }
                     
                     function debugWorkflow(encodedName) {
@@ -343,7 +343,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                             else if (fw.status === 'error') statusTitle = 'Checks failed';
                             else if (fw.status === 'warning') statusTitle = 'Analysis warning';
                             
-                            html += '<div class="tree-item" tabindex="0" onclick="startSimulation(\\'' + encodeURIComponent(fw.name) + '\\', \\'' + encodeURIComponent(fw.fsPath) + '\\')">';
+                            html += '<div class="tree-item" tabindex="0" onclick="startEvaluation(\\'' + encodeURIComponent(fw.name) + '\\', \\'' + encodeURIComponent(fw.fsPath) + '\\')">'; 
                             html += '    <span class="indent"></span>';
                             html += '    <i class="codicon codicon-github-action"></i>';
                             html += '    <span class="tree-label ' + textClass + '">' + fw.name + '</span>';

@@ -2,66 +2,179 @@ import * as assert from 'assert';
 import * as vscode from 'vscode';
 import { SidebarProvider } from '../../sidebar/SidebarProvider';
 
-suite('SidebarProvider Test Suite', () => {
-    vscode.window.showInformationMessage('Start all tests.');
+// ---------------------------------------------------------------------------
+// Shared mock factory — creates a minimal WebviewView that captures messages
+// ---------------------------------------------------------------------------
+function makeMockWebviewView() {
+    const postedMessages: any[] = [];
+    let messageListener: ((msg: any) => void) | null = null;
 
-    test('SidebarProvider instantiates correctly', () => {
-        const dummyUri = vscode.Uri.file('/fake/path/to/extension');
-        const provider = new SidebarProvider(dummyUri);
-        assert.ok(provider !== null, 'SidebarProvider should instantiate successfully');
+    const mock: any = {
+        webview: {
+            options: {},
+            html: '',
+            onDidReceiveMessage: (listener: (msg: any) => void) => {
+                messageListener = listener;
+                return { dispose: () => { } };
+            },
+            postMessage: (message: any) => {
+                postedMessages.push(message);
+            },
+            asWebviewUri: (uri: vscode.Uri) => uri,
+        },
+        onDidDispose: (_cb: () => void) => ({ dispose: () => { } }),
+        onDidChangeVisibility: (_cb: () => void) => ({ dispose: () => { } }),
+    };
+
+    const send = (msg: any) => messageListener?.(msg);
+    return { mock: mock as vscode.WebviewView, postedMessages, send };
+}
+
+suite('SidebarProvider', () => {
+
+    // -----------------------------------------------------------------------
+    // Instantiation
+    // -----------------------------------------------------------------------
+    test('instantiates without throwing', () => {
+        const uri = vscode.Uri.file('/fake/path/to/extension');
+        const provider = new SidebarProvider(uri);
+        assert.ok(provider !== null);
     });
 
-    test('SidebarProvider captures Webview load and triggers updateWorkflows', async () => {
-        const dummyUri = vscode.Uri.file('/fake/path/to/extension');
-        const provider = new SidebarProvider(dummyUri);
+    // -----------------------------------------------------------------------
+    // resolveWebviewView — initial load
+    // -----------------------------------------------------------------------
+    test('resolveWebviewView sets webview HTML', () => {
+        const uri = vscode.Uri.file('/fake/path');
+        const provider = new SidebarProvider(uri);
+        const { mock } = makeMockWebviewView();
+        provider.resolveWebviewView(mock);
+        assert.ok(
+            typeof (mock.webview as any).html === 'string' && (mock.webview as any).html.length > 0,
+            'html should be set on the webview'
+        );
+    });
 
-        // Mock the resolved WebviewView
-        let postedMessage: any = null;
-        let messageListener: any = null;
-
-        const mockWebviewView: any = {
-            webview: {
-                options: {},
-                html: "",
-                onDidReceiveMessage: (listener: any) => {
-                    messageListener = listener;
-                },
-                postMessage: (message: any) => {
-                    postedMessage = message;
-                },
-                asWebviewUri: (uri: vscode.Uri) => uri
-            }
-        };
-
-        // Create a dummy file in the workspace to bypass headless search indexing lag
+    test('resolveWebviewView posts workflows message on load', async () => {
         const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
         assert.ok(workspaceFolder, 'Workspace folder must be open in the test host');
-        const dummyFileUri = vscode.Uri.joinPath(workspaceFolder.uri, '.github', 'workflows', 'test-headless.md');
-        await vscode.workspace.fs.writeFile(dummyFileUri, Buffer.from('# Dummy test'));
 
-        // Warm up VS Code Search API index before triggering
-        await vscode.workspace.findFiles('**/*');
+        const dummyFileUri = vscode.Uri.joinPath(workspaceFolder.uri, '.github', 'workflows', 'test-on-load.md');
+        await vscode.workspace.fs.writeFile(dummyFileUri, Buffer.from('# Dummy'));
+        await vscode.workspace.findFiles('**/*'); // warm up index
 
-        // When `resolveWebviewView` is called, it triggers `_updateWorkflows()` internally and hits our mocked postMessage.
-        provider.resolveWebviewView(mockWebviewView as vscode.WebviewView);
+        const provider = new SidebarProvider(workspaceFolder.uri);
+        const { mock, postedMessages } = makeMockWebviewView();
+        provider.resolveWebviewView(mock);
 
-        // Allow microtask queue to process the async `_updateWorkflows()`
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise(resolve => setTimeout(resolve, 2500));
 
-        console.log('Test Environment Posted Message:', JSON.stringify(postedMessage));
-
-        assert.ok(postedMessage !== null, 'postMessage should have been called upon resolve');
-        assert.strictEqual(postedMessage.type, 'workflows', 'The posted message type should be "workflows"');
-        assert.ok(Array.isArray(postedMessage.value), 'The posted message value should be an array representing the scanned workflows');
-
-        // In our test-workspace, we have dummy yml/md files
-        // By running this test inside `test-workspace`, the `findFiles` native API from VS Code will actually scan it.
-        const fileNames = postedMessage.value.map((v: any) => v.name);
-        assert.ok(fileNames.includes('reporting.md') || fileNames.includes('daily-security-red-team.md') || fileNames.includes('test-headless.md'), 'Should have discovered at least one actual Markdown/YML workflow from the test workspace');
-
-        // Cleanup test artifact
         try {
-            await vscode.workspace.fs.delete(dummyFileUri);
-        } catch (e) { }
+            const workflowMsg = postedMessages.find(m => m.type === 'workflows');
+            assert.ok(workflowMsg, '"workflows" message should have been posted');
+            assert.ok(Array.isArray(workflowMsg.value), 'value should be an array');
+        } finally {
+            await vscode.workspace.fs.delete(dummyFileUri).then(() => { }, () => { });
+        }
+    });
+
+    // -----------------------------------------------------------------------
+    // Discovered workflow shape
+    // -----------------------------------------------------------------------
+    test('workflow entries have expected shape (name, fsPath, status)', async () => {
+        const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+        assert.ok(workspaceFolder, 'Workspace folder must be open in the test host');
+
+        const provider = new SidebarProvider(workspaceFolder.uri);
+        const { mock, postedMessages } = makeMockWebviewView();
+        provider.resolveWebviewView(mock);
+
+        await new Promise(resolve => setTimeout(resolve, 2500));
+
+        const workflowMsg = postedMessages.find(m => m.type === 'workflows');
+        assert.ok(workflowMsg, '"workflows" message should have been posted');
+
+        if (workflowMsg.value.length > 0) {
+            const entry = workflowMsg.value[0];
+            assert.ok('name' in entry, 'workflow entry should have "name"');
+            assert.ok('fsPath' in entry, 'workflow entry should have "fsPath"');
+            assert.ok('status' in entry, 'workflow entry should have "status"');
+        }
+    });
+
+    test('discovers daily-security-red-team.md in test-workspace', async () => {
+        const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+        assert.ok(workspaceFolder, 'Workspace folder must be open in the test host');
+
+        const provider = new SidebarProvider(workspaceFolder.uri);
+        const { mock, postedMessages } = makeMockWebviewView();
+        provider.resolveWebviewView(mock);
+
+        await new Promise(resolve => setTimeout(resolve, 2500));
+
+        const workflowMsg = postedMessages.find(m => m.type === 'workflows');
+        assert.ok(workflowMsg, '"workflows" message should have been posted');
+        const names: string[] = workflowMsg.value.map((v: any) => v.name);
+        assert.ok(
+            names.includes('daily-security-red-team.md'),
+            `Expected daily-security-red-team.md in discovered workflows, got: ${names.join(', ')}`
+        );
+    });
+
+    // -----------------------------------------------------------------------
+    // Message routing — refresh
+    // -----------------------------------------------------------------------
+    test('refresh message triggers another workflows postMessage', async () => {
+        const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+        assert.ok(workspaceFolder, 'Workspace folder must be open in the test host');
+
+        const provider = new SidebarProvider(workspaceFolder.uri);
+        const { mock, postedMessages, send } = makeMockWebviewView();
+        provider.resolveWebviewView(mock);
+
+        await new Promise(resolve => setTimeout(resolve, 2500));
+        const countAfterLoad = postedMessages.filter(m => m.type === 'workflows').length;
+        assert.ok(countAfterLoad >= 1, 'should have at least one workflows message after initial load');
+
+        send({ type: 'refresh' });
+        await new Promise(resolve => setTimeout(resolve, 2500));
+
+        const countAfterRefresh = postedMessages.filter(m => m.type === 'workflows').length;
+        assert.ok(countAfterRefresh > countAfterLoad, 'refresh should produce an additional workflows message');
+    });
+
+    // -----------------------------------------------------------------------
+    // Message routing — startEvaluation
+    // -----------------------------------------------------------------------
+    test('startEvaluation message does not throw', async () => {
+        const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+        assert.ok(workspaceFolder, 'Workspace folder must be open in the test host');
+
+        const uri = workspaceFolder.uri;
+        const provider = new SidebarProvider(uri);
+        const { mock, send } = makeMockWebviewView();
+        provider.resolveWebviewView(mock);
+
+        const fsPath = vscode.Uri.joinPath(
+            workspaceFolder.uri, '.github', 'workflows', 'daily-security-red-team.md'
+        ).fsPath;
+        const payload = { name: 'daily-security-red-team.md', fsPath };
+        assert.doesNotThrow(() => send({ type: 'startEvaluation', value: payload }));
+
+        // Small wait so the EvaluationPanel created by the command is disposed
+        // before the EvaluationPanel test suite starts.
+        await new Promise(resolve => setTimeout(resolve, 200));
+    });
+
+    // -----------------------------------------------------------------------
+    // Message routing — debugWorkflow
+    // -----------------------------------------------------------------------
+    test('debugWorkflow message does not throw', () => {
+        const uri = vscode.Uri.file('/fake/path');
+        const provider = new SidebarProvider(uri);
+        const { mock, send } = makeMockWebviewView();
+        provider.resolveWebviewView(mock);
+
+        assert.doesNotThrow(() => send({ type: 'debugWorkflow', value: 'my-workflow.md' }));
     });
 });

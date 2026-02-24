@@ -343,24 +343,20 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                             else if (fw.status === 'error') statusTitle = 'Checks failed';
                             else if (fw.status === 'warning') statusTitle = 'Analysis warning';
                             
-                            html += '<div class="tree-item" tabindex="0">';
+                            html += '<div class="tree-item" tabindex="0" onclick="startSimulation(\\'' + encodeURIComponent(fw.name) + '\\', \\'' + encodeURIComponent(fw.fsPath) + '\\')">';
                             html += '    <span class="indent"></span>';
                             html += '    <i class="codicon codicon-github-action"></i>';
                             html += '    <span class="tree-label ' + textClass + '">' + fw.name + '</span>';
                             html += '    <div class="status-dot ' + statusClass + '" title="' + statusTitle + '"></div>';
-                            html += '    <div class="tree-actions">';
-                                
+
                             if(fw.status === 'error'){
-                               html += '        <button class="icon-action" title="Debug" onclick="debugWorkflow(\\'' + encodeURIComponent(fw.name) + '\\')">';
-                               html += '            <i class="codicon codicon-bug"></i>';
-                               html += '        </button>';
-                            } else {
-                                html += '        <button class="icon-action" title="Run Simulation" onclick="startSimulation(\\'' + encodeURIComponent(fw.name) + '\\', \\'' + encodeURIComponent(fw.fsPath) + '\\')">';
-                                html += '            <i class="codicon codicon-play"></i>';
+                                html += '    <div class="tree-actions">';
+                                html += '        <button class="icon-action" title="Debug" onclick="event.stopPropagation(); debugWorkflow(\\'' + encodeURIComponent(fw.name) + '\\')">';
+                                html += '            <i class="codicon codicon-bug"></i>';
                                 html += '        </button>';
+                                html += '    </div>';
                             }
 
-                            html += '    </div>';
                             html += '</div>';
                         });
 

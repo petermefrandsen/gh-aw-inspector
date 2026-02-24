@@ -13,6 +13,6 @@ export default defineConfig({
             'out/test/**',
             'out/panels/SimulationPanel.js'
         ],
-        reporter: ['text', 'lcov', 'html']
+        reporter: ['text', 'lcov', 'html', 'cobertura']
     }
 });

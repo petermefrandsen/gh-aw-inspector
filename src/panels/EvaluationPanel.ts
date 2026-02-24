@@ -2,7 +2,6 @@ import * as vscode from "vscode";
 import * as fs from "fs";
 import * as path from "path";
 import matter from "gray-matter";
-import { getCronDescription } from "../utils/cronUtils";
 import { formatItems } from "../utils/formatItems";
 import { resolveImports } from "../utils/importResolver";
 

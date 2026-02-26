@@ -76,11 +76,8 @@ jobs:
       - name: Extract coverage percentage
         id: coverage-report
         run: |
-          COVERAGE=$(grep "^Lines" coverage-output.txt \
-            | grep -oP '[0-9]+\.[0-9]+' \
-            | head -1 \
-            | awk '{printf "%.0f", $1}')
-          echo "coverage=$COVERAGE" >> "$GITHUB_OUTPUT"
+          COVERAGE=$(awk -F'|' '/All files/ { gsub(/[[:space:]]/, "", $5); printf "%.0f", $5 }' coverage-output.txt)
+          echo "coverage=${COVERAGE:-0}" >> "$GITHUB_OUTPUT"
 
       - name: Create the Badge
         if: github.ref == 'refs/heads/main'

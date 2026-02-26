@@ -71,6 +71,7 @@ jobs:
           lcov-path: ./coverage/lcov.info
           min-coverage-percentage: ${{ env.COVERAGE_LIMIT }}
           fail-under-coverage-percentage: 'false'
+          show-junit: 'false'
 
       - name: Extract coverage percentage
         id: coverage-report

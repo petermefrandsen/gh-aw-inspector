@@ -48,7 +48,7 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "test": "vscode-test",
-    "test:coverage": "vscode-test --coverage",
+    "test:coverage": "vscode-test --coverage --coverage-output ./coverage --coverage-reporter text --coverage-reporter lcov --coverage-reporter cobertura",
     "test:e2e": "extest run-tests ./out/test/e2e/*.test.js test-workspace",
     "lint": "eslint src --ext ts"
   },

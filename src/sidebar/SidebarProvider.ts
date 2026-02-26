@@ -20,11 +20,13 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             localResourceRoots: [this._extensionUri],
         };
 
-        webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
-
         // Listen for messages from the sidebar
         webviewView.webview.onDidReceiveMessage(async (data) => {
             switch (data.type) {
+                case "ready": {
+                    await this._updateWorkflows();
+                    break;
+                }
                 case "refresh": {
                     await this._updateWorkflows();
                     break;
@@ -39,6 +41,14 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                 }
             }
         });
+
+        webviewView.onDidChangeVisibility(() => {
+            if (webviewView.visible) {
+                this._updateWorkflows();
+            }
+        });
+
+        webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
 
         // Initial load
         this._updateWorkflows();
@@ -284,23 +294,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                     </div>
                 </div>
 
-                <div class="section">
-                    <div class="section-header" tabindex="0" style="border-top: 1px solid var(--vscode-sideBarSectionHeader-border, transparent)">
-                        <div class="section-title-wrap">
-                            <i class="codicon codicon-chevron-right"></i>
-                            <span>Timeline</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <div class="section-header" tabindex="0" style="border-top: 1px solid var(--vscode-sideBarSectionHeader-border, transparent)">
-                        <div class="section-title-wrap">
-                            <i class="codicon codicon-chevron-right"></i>
-                            <span>MCP Inspector</span>
-                        </div>
-                    </div>
-                </div>
+                <!-- Removed placeholder sections: Timeline and MCP Inspector -->
 
                 <script>
                     const vscode = acquireVsCodeApi();
@@ -327,6 +321,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                                 break;
                         }
                     });
+
+                    vscode.postMessage({ type: 'ready' });
 
                     function renderWorkflows(workflows) {
                         if (workflows.length === 0) {

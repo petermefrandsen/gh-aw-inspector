@@ -4,6 +4,8 @@ COVERAGE ?= false
 
 compile:
 	pnpm run compile
+	mkdir -p dist
+	echo "module.exports = require('../out/extension');" > dist/extension.js
 
 test-unit: compile
 ifeq ($(COVERAGE),true)

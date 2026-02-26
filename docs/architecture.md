@@ -2,6 +2,8 @@
 
 The overarching goal is to provide a shell that can use any agentic / AI CLI under the hood, specifically focusing on parsing and simulating `gh aw` CLI commands in a sandboxed or mocked VS Code extension environment.
 
+This extension should be treated as the **next step** in the `gh aw` testing lifecycle: after validating behavior with CLI-first commands (especially `gh aw trial` and `gh aw run`), users move into VS Code for deeper inspection, repeatable prompt evaluation, and report-oriented iteration.
+
 ## AI Implementation Guidelines
 
 The implementation of this extension should adhere to the following architecture:
@@ -21,7 +23,11 @@ The implementation of this extension should adhere to the following architecture
    - Spawns child processes to run `gh aw run <workflow> --prompt "<input>"`.
    - Captures `stdout` and `stderr` robustly, preventing the UI from blocking.
 
-4. **Markdown Generator (`src/generators/MarkdownBuilder.ts`)**: 
+4. **Testing Bridge**:
+   - Aligns with CLI testing capabilities by consuming the same workflow IDs and run semantics used by `gh aw trial` and `gh aw run`.
+   - Prioritizes post-run inspection and workflow iteration in-editor, rather than replacing core CLI execution.
+
+5. **Markdown Generator (`src/generators/MarkdownBuilder.ts`)**: 
    - Takes the output from the CLI and pipes it through the evaluation prompt located at `src/prompts/evaluate-gh-aw.md`.
    - Formats the returned outputs into rich markdown files containing Description, Metadata, Prerequisites, Intent, and happy/unhappy paths.
    - Uses VS Code's `workspace.openTextDocument` to display the generated Markdown file to the user.

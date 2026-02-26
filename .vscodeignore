@@ -1,0 +1,17 @@
+.vscode
+node_modules
+out/
+src/
+!src/prompts/
+tsconfig.json
+esbuild.js
+**/*.ts
+**/*.map
+.gitignore
+test-workspace/
+docs/
+skills/
+CONTRIBUTING.md
+variant2.html
+*.vsix
+*.log

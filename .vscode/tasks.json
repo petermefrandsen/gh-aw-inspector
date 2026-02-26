@@ -3,16 +3,37 @@
     "tasks": [
         {
             "label": "watch",
-            "type": "shell",
-            "command": "pnpm run watch",
-            "problemMatcher": "$tsc-watch",
-            "isBackground": true,
+            "dependsOn": ["watch:tsc", "watch:esbuild"],
             "presentation": {
                 "reveal": "never"
             },
             "group": {
                 "kind": "build",
                 "isDefault": true
+            }
+        },
+        {
+            "label": "watch:esbuild",
+            "type": "shell",
+            "command": "pnpm run watch:esbuild",
+            "group": "build",
+            "problemMatcher": "$esbuild-watch",
+            "isBackground": true,
+            "presentation": {
+                "group": "watch",
+                "reveal": "never"
+            }
+        },
+        {
+            "label": "watch:tsc",
+            "type": "shell",
+            "command": "pnpm run watch:tsc",
+            "group": "build",
+            "problemMatcher": "$tsc-watch",
+            "isBackground": true,
+            "presentation": {
+                "group": "watch",
+                "reveal": "never"
             }
         },
         {

@@ -20,11 +20,13 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             localResourceRoots: [this._extensionUri],
         };
 
-        webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
-
         // Listen for messages from the sidebar
         webviewView.webview.onDidReceiveMessage(async (data) => {
             switch (data.type) {
+                case "ready": {
+                    await this._updateWorkflows();
+                    break;
+                }
                 case "refresh": {
                     await this._updateWorkflows();
                     break;
@@ -39,6 +41,14 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                 }
             }
         });
+
+        webviewView.onDidChangeVisibility(() => {
+            if (webviewView.visible) {
+                this._updateWorkflows();
+            }
+        });
+
+        webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
 
         // Initial load
         this._updateWorkflows();
@@ -327,6 +337,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                                 break;
                         }
                     });
+
+                    vscode.postMessage({ type: 'ready' });
 
                     function renderWorkflows(workflows) {
                         if (workflows.length === 0) {

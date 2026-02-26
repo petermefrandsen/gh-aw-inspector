@@ -21,6 +21,8 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Stamp version from tag
+        run: npm version "${GITHUB_REF_NAME#v}" --no-git-tag-version
       - run: pnpm run check-types
       - run: pnpm run lint
       - run: xvfb-run -a pnpm run test
@@ -39,6 +41,8 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Stamp version from tag
+        run: npm version "${GITHUB_REF_NAME#v}" --no-git-tag-version
       - run: pnpm run package
       - name: Publish to VS Code Marketplace
         run: pnpm exec vsce publish --no-git-tag-version -p ${{ secrets.VSCE_PAT }}

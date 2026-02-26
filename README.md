@@ -6,11 +6,14 @@
 
 This extension provides a dedicated interface within VS Code to inspect, run, and simulate these tools without leaving your editor.
 
+For teams following the official CLI testing flow, this extension is intended as the **next step** after terminal-first testing (`gh aw trial` / `gh aw run`): use the editor experience to inspect runs, compare outcomes, and generate structured simulation/evaluation notes.
+
 ## Motivation & Features
 - **Sidebar Commands**: Quickly execute common `gh aw` CLI commands:
   - `gh aw init`: Sets up a repository for agentic workflows.
   - `gh aw list`: List all active agentic workflows in the current repository.
   - `gh aw compile`: Converts Markdown workflow files into GitHub Actions YAML.
+- **Testing Next Step in VS Code**: Complement CLI testing by moving from `gh aw trial` and `gh aw run` into a richer editor workflow for inspection, prompt iteration, and report generation.
 - **Simulate Outputs**: Execute predefined prompts against specific workflows (selected via a dropdown using `gh aw run <workflow>`) and simulate their output locally before committing.
 - **Auto-generated Markdown**: Output simulation is captured and structured elegantly into Markdown with:
   - **Description**: What the workflow ran.

@@ -4,12 +4,15 @@ Welcome to the **Test Workspace** for the `gh-aw-inspector` VS Code extension!
 
 This directory is configured to open automatically when you launch the Extension Development Host (by pressing `F5` in the main workspace). It serves as a clean, isolated environment to test the agentic workflows extension against realistic scenarios and files.
 
+In the broader `gh aw` testing flow, this workspace is the **next step** after CLI execution (`gh aw trial` / `gh aw run`): use it to inspect outcomes in-editor and iterate faster on prompts and workflow behavior.
+
 ## 🚀 Purpose
 
 The goal of this workspace is to provide a "sandbox" where you can safely:
 - **Test UI Components**: Verify how the sidebar, trees, and panels render.
 - **Run Simulations**: Test the simulated execution of prompts against sample agentic workflows.
 - **Debug End-to-End**: Ensure the extension properly reads workspace files, parses markdown frontmatter, and executes `gh aw` CLI commands.
+- **Bridge CLI to Editor Testing**: Move from terminal test runs into structured inspection and evaluation within VS Code.
 
 ---
 

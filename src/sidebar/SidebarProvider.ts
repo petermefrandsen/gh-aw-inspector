@@ -294,23 +294,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                     </div>
                 </div>
 
-                <div class="section">
-                    <div class="section-header" tabindex="0" style="border-top: 1px solid var(--vscode-sideBarSectionHeader-border, transparent)">
-                        <div class="section-title-wrap">
-                            <i class="codicon codicon-chevron-right"></i>
-                            <span>Timeline</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <div class="section-header" tabindex="0" style="border-top: 1px solid var(--vscode-sideBarSectionHeader-border, transparent)">
-                        <div class="section-title-wrap">
-                            <i class="codicon codicon-chevron-right"></i>
-                            <span>MCP Inspector</span>
-                        </div>
-                    </div>
-                </div>
+                <!-- Removed placeholder sections: Timeline and MCP Inspector -->
 
                 <script>
                     const vscode = acquireVsCodeApi();

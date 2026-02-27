@@ -36,6 +36,8 @@ Automatically discovers all `.md` agentic workflow files in `.github/workflows/`
 ### ▶️ One-Click Evaluation
 Select any workflow from the sidebar and launch an evaluation session. GH AW Inspector runs the workflow using `gh aw run` and captures the output in real time.
 
+Verbosity modes: Choose the level of detail included in evaluation reports — `minimalistic` (brief summary), `normal` (balanced details, default), and `verbose` (full metadata, rationale, and action items).
+
 ![Evaluation demo](docs/screenshots/evaluation-demo.gif)
 
 ---

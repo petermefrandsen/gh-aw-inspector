@@ -3,6 +3,7 @@
   "displayName": "GH Agentic Workflows Inspector",
   "description": "A VS Code extension designed to interface with the GitHub Agentic Workflows CLI (gh aw).",
   "version": "0.0.0",
+  "license": "MIT",
   "publisher": "petermefrandsen",
   "repository": {
     "type": "git",

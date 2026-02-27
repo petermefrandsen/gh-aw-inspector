@@ -69,7 +69,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
 
         try {
             // Use RelativePattern to strictly search within the specific workspace folder's .github/workflows directory (no subdirectories)
-            const pattern = new vscode.RelativePattern(workspaceFolders[0], '.github/workflows/*.{yml,yaml,md}');
+            const pattern = new vscode.RelativePattern(workspaceFolders[0], '.github/workflows/*.md');
             const files = await vscode.workspace.findFiles(pattern, '**/node_modules/**');
 
             console.log(`GH-AW Inspector: Found ${files.length} workflow files using RelativePattern.`);

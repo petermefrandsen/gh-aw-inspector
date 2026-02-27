@@ -29,18 +29,14 @@ GitHub Agentic Workflows let developers define tasks for AI agents in plain Mark
 ### 🗂️ Workflow Discovery Sidebar
 Automatically discovers all `.md` agentic workflow files in `.github/workflows/` and displays them in a dedicated sidebar panel.
 
-> **📸 Screenshot placeholder** — `docs/screenshots/sidebar-workflow-list.png`
-> 
-> ![Sidebar screenshot](docs/screenshots/sidebar-workflow-list.png)
+![Sidebar screenshot](docs/screenshots/sidebar-workflow-list.png)
 
 ---
 
 ### ▶️ One-Click Evaluation
 Select any workflow from the sidebar and launch an evaluation session. GH AW Inspector runs the workflow using `gh aw run` and captures the output in real time.
 
-> **🎞️ GIF placeholder** — `docs/screenshots/evaluation-demo.gif`
-> 
-> ![Evaluation demo](docs/screenshots/evaluation-demo.gif)
+![Evaluation demo](docs/screenshots/evaluation-demo.gif)
 
 ---
 
@@ -56,18 +52,14 @@ Each evaluation produces a structured Markdown report covering:
 | **Happy path output** | Successful execution example |
 | **Unhappy path outputs** | Common failure cases |
 
-> **📸 Screenshot placeholder** — `docs/screenshots/evaluation-report.png`
-> 
-> ![Evaluation report](docs/screenshots/evaluation-report.png)
+![Evaluation report](docs/screenshots/evaluation-report.gif)
 
 ---
 
 ### 🔍 Frontmatter Inspector
 Parses and displays the `gh-aw` frontmatter schema from workflow files — engine, triggers, tools, permissions, and safe outputs — so you can understand a workflow at a glance without reading raw Markdown.
 
-> **📸 Screenshot placeholder** — `docs/screenshots/frontmatter-inspector.png`
-> 
-> ![Frontmatter inspector](docs/screenshots/frontmatter-inspector.png)
+![Frontmatter inspector](docs/screenshots/frontmatter-inspector.png)
 
 ---
 
@@ -207,8 +199,6 @@ Press `F5` in VS Code to open the Extension Development Host with the extension 
 - [x] Workflow discovery sidebar
 - [x] Evaluation panel
 - [x] Automated release pipeline (VS Marketplace + Open VSX)
-- [ ] Frontmatter form editor
-- [ ] Inline run status badges per workflow
 - [ ] Evaluation report diffing between runs
 - [ ] Multi-workspace support
 - [ ] `gh aw compile` output preview

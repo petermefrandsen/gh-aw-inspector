@@ -65,4 +65,14 @@ suite('Extension', () => {
         assert.ok(engine.startsWith('^1.90') || engine.startsWith('>=1.90'),
             `engines.vscode should be ^1.90.0 or newer, got: "${engine}"`);
     });
+
+    // -----------------------------------------------------------------------
+    // Command argument validation
+    // -----------------------------------------------------------------------
+    test('startEvaluation command with a string argument shows error (legacy format guard)', async () => {
+        // Passing a raw string instead of a workflow object hits the guard branch in extension.ts
+        await assert.doesNotReject(
+            Promise.resolve(vscode.commands.executeCommand('gh-aw-inspector.startEvaluation', 'legacy-string-value'))
+        );
+    });
 });

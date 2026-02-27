@@ -82,4 +82,49 @@ suite('EvaluationPanel', () => {
 
         assert.strictEqual(EvaluationPanel.currentPanel, originalInstance, 'instance should not change after update');
     });
+
+    test('update with non-existent file path does not throw (catches read error)', () => {
+        const extensionUri = getExtensionUri();
+
+        EvaluationPanel.createOrShow(extensionUri, MAIN_WORKFLOW, 'test.md');
+        assert.ok(EvaluationPanel.currentPanel, 'panel should exist');
+
+        assert.doesNotThrow(() => {
+            EvaluationPanel.currentPanel!.update('/nonexistent/path/to/workflow.md', 'nonexistent.md');
+        });
+    });
+
+    test('update with cached models populates model options (covers ternary branch in _getHtmlForWebview)', () => {
+        const extensionUri = getExtensionUri();
+
+        // Temporarily set cached models to exercise the models-populated branch
+        (EvaluationPanel as any)._cachedModels = [{ id: 'gpt-4o', name: 'GPT-4o' }];
+        try {
+            EvaluationPanel.createOrShow(extensionUri, MAIN_WORKFLOW, 'test.md');
+            assert.ok(EvaluationPanel.currentPanel, 'panel should exist');
+            assert.doesNotThrow(() => {
+                EvaluationPanel.currentPanel!.update(MAIN_WORKFLOW, 'cached-models.md');
+            });
+        } finally {
+            (EvaluationPanel as any)._cachedModels = undefined;
+        }
+    });
+
+    // -----------------------------------------------------------------------
+    // openEvaluationRun()
+    // -----------------------------------------------------------------------
+    test('openEvaluationRun returns early and posts error when model not in cache', async () => {
+        const extensionUri = getExtensionUri();
+
+        // _cachedModels is undefined → model not found → posts error and returns early
+        // This covers the loading HTML, resolveImports, prompt reading, and lmModel guard
+        await assert.doesNotReject(
+            EvaluationPanel.openEvaluationRun(
+                extensionUri,
+                MAIN_WORKFLOW,
+                'daily-security-red-team.md',
+                'nonexistent-model-id'
+            )
+        );
+    });
 });

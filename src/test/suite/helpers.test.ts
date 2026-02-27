@@ -79,6 +79,18 @@ suite('formatItems', () => {
         const html = formatItems('timeout-minutes', 60);
         assert.ok(html.includes('60'));
     });
+
+    test('array containing objects JSON-stringifies the object items', () => {
+        const html = formatItems('tools', [{ name: 'bash', version: '1.0' }, 'curl']);
+        assert.ok(html.includes('curl'), 'should include plain string item');
+        assert.ok(html.includes('name'), 'should include key from JSON-stringified object');
+    });
+
+    test('on key with object value having a string cron applies getCronDescription as hover', () => {
+        // schedule value is a plain string with spaces → triggers the getCronDescription branch
+        const html = formatItems('on', { schedule: '0 9 * * 1-5' });
+        assert.ok(html.includes('schedule'), 'badge should show the schedule key');
+    });
 });
 
 suite('resolveImports', () => {

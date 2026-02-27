@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![GH AW Inspector](resources/gh-aw-inspector.svg)
+![GH AW Inspector](resources/logo.png)
 
 **Inspect, simulate, and evaluate [GitHub Agentic Workflows](https://github.com/github/gh-aw) — without leaving VS Code.**
 

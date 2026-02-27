@@ -8,6 +8,8 @@ import { SidebarProvider } from '../../sidebar/SidebarProvider';
 function makeMockWebviewView() {
     const postedMessages: any[] = [];
     let messageListener: ((msg: any) => void) | null = null;
+    let visibilityListener: (() => void) | null = null;
+    let isVisible = true;
 
     const mock: any = {
         webview: {
@@ -23,11 +25,17 @@ function makeMockWebviewView() {
             asWebviewUri: (uri: vscode.Uri) => uri,
         },
         onDidDispose: (_cb: () => void) => ({ dispose: () => { } }),
-        onDidChangeVisibility: (_cb: () => void) => ({ dispose: () => { } }),
+        onDidChangeVisibility: (cb: () => void) => {
+            visibilityListener = cb;
+            return { dispose: () => { } };
+        },
+        get visible() { return isVisible; },
     };
 
     const send = (msg: any) => messageListener?.(msg);
-    return { mock: mock as vscode.WebviewView, postedMessages, send };
+    const triggerVisibilityChange = () => visibilityListener?.();
+    const setVisible = (v: boolean) => { isVisible = v; };
+    return { mock: mock as vscode.WebviewView, postedMessages, send, triggerVisibilityChange, setVisible };
 }
 
 suite('SidebarProvider', () => {
@@ -209,5 +217,49 @@ suite('SidebarProvider', () => {
         provider.resolveWebviewView(mock);
 
         assert.doesNotThrow(() => send({ type: 'debugWorkflow', value: 'my-workflow.md' }));
+    });
+
+    // -----------------------------------------------------------------------
+    // Message routing — ready
+    // -----------------------------------------------------------------------
+    test('ready message triggers a workflows postMessage', async () => {
+        const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+        assert.ok(workspaceFolder, 'Workspace folder must be open in the test host');
+
+        const provider = new SidebarProvider(workspaceFolder.uri);
+        const { mock, postedMessages, send } = makeMockWebviewView();
+        provider.resolveWebviewView(mock);
+
+        await new Promise(resolve => setTimeout(resolve, 2500));
+        const countBeforeReady = postedMessages.filter(m => m.type === 'workflows').length;
+        assert.ok(countBeforeReady >= 1, 'should have at least one workflows message after initial load');
+
+        send({ type: 'ready' });
+        await new Promise(resolve => setTimeout(resolve, 2500));
+
+        const countAfterReady = postedMessages.filter(m => m.type === 'workflows').length;
+        assert.ok(countAfterReady > countBeforeReady, 'ready message should trigger an additional workflows message');
+    });
+
+    // -----------------------------------------------------------------------
+    // Visibility change handler
+    // -----------------------------------------------------------------------
+    test('visibility change triggers workflows update when view is visible', async () => {
+        const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+        assert.ok(workspaceFolder, 'Workspace folder must be open in the test host');
+
+        const provider = new SidebarProvider(workspaceFolder.uri);
+        const { mock, postedMessages, triggerVisibilityChange } = makeMockWebviewView();
+        provider.resolveWebviewView(mock);
+
+        await new Promise(resolve => setTimeout(resolve, 2500));
+        const countBefore = postedMessages.filter(m => m.type === 'workflows').length;
+        assert.ok(countBefore >= 1, 'should have at least one workflows message after initial load');
+
+        triggerVisibilityChange();
+        await new Promise(resolve => setTimeout(resolve, 2500));
+
+        const countAfter = postedMessages.filter(m => m.type === 'workflows').length;
+        assert.ok(countAfter > countBefore, 'visibility change should trigger an additional workflows message');
     });
 });

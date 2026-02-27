@@ -27,7 +27,7 @@ export class EvaluationPanel {
           this._loadModels(message.force === true).catch(console.error);
           break;
         case 'startEvaluation':
-          EvaluationPanel.openEvaluationRun(this._extensionUri, this._fsPath, this._name, message.model as string).catch(console.error);
+          EvaluationPanel.openEvaluationRun(this._extensionUri, this._fsPath, this._name, message.model as string, message.verbosity as string).catch(console.error);
           break;
       }
     }, null, this._disposables);
@@ -102,7 +102,7 @@ export class EvaluationPanel {
    * Context is built by recursively resolving all `imports:` references in the
    * workflow's frontmatter and concatenating the raw file contents.
    */
-  public static async openEvaluationRun(extensionUri: vscode.Uri, fsPath: string, name: string, model: string) {
+  public static async openEvaluationRun(extensionUri: vscode.Uri, fsPath: string, name: string, model: string, verbosity: string = 'normal') {
     const timestamp = new Date().toLocaleString();
     const title = `Evaluation: ${name} (${timestamp})`;
     const panel = vscode.window.createWebviewPanel(
@@ -123,10 +123,11 @@ export class EvaluationPanel {
       contextBlock += `\n=== File: ${rel} ===\n${f.content}\n`;
     }
 
-    // --- Load the evaluation prompt template ---
+    // --- Load the evaluation prompt template for the selected verbosity ---
     let promptTemplate = '';
     try {
-      const promptUri = vscode.Uri.joinPath(extensionUri, 'src', 'prompts', 'evaluate-gh-aw.md');
+      const promptFile = `evaluate-gh-aw-${verbosity}.md`;
+      const promptUri = vscode.Uri.joinPath(extensionUri, 'src', 'prompts', promptFile);
       promptTemplate = fs.readFileSync(promptUri.fsPath, 'utf8');
     } catch (e: any) {
       panel.webview.postMessage({ command: 'error', message: `Could not read prompt template: ${e.message}` });
@@ -486,8 +487,8 @@ ${modelOptionsHtml}
 <label class="text-[11px] text-secondary-text font-medium uppercase ml-1">Verbosity Level</label>
 <div id="verbosityGroup" class="grid grid-cols-3 gap-1 p-1 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-border-dark">
 <button data-verbosity="normal" class="verbosity-btn w-full py-1.5 text-[11px] font-semibold rounded whitespace-normal break-words">Normal</button>
-<button data-verbosity="minimalistic" class="verbosity-btn w-full py-1.5 text-[11px] font-semibold rounded whitespace-normal break-words opacity-40 cursor-not-allowed text-secondary-text" disabled title="Not yet implemented">Minimalistic</button>
-<button data-verbosity="verbose" class="verbosity-btn w-full py-1.5 text-[11px] font-semibold rounded whitespace-normal break-words opacity-40 cursor-not-allowed text-secondary-text" disabled title="Not yet implemented">Verbose</button>
+<button data-verbosity="minimalistic" class="verbosity-btn w-full py-1.5 text-[11px] font-semibold rounded whitespace-normal break-words">Minimalistic</button>
+<button data-verbosity="verbose" class="verbosity-btn w-full py-1.5 text-[11px] font-semibold rounded whitespace-normal break-words">Verbose</button>
 </div>
 </div>
 </div>
@@ -497,7 +498,7 @@ ${modelOptionsHtml}
 <div class="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background-light dark:from-background-dark via-background-light dark:via-background-dark to-transparent">
 <button id="startEvalBtn" class="w-full bg-primary hover:bg-primary/90 text-background-dark font-bold py-4 rounded-xl shadow-lg shadow-primary/20 flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
 <span class="material-symbols-outlined text-[20px]">play_arrow</span>
-            Start Evaluation
+            Start Normal Evaluation
         </button>
 </div>
 
@@ -598,6 +599,8 @@ ${modelOptionsHtml}
             if (!btn.disabled) {
                 selectedVerbosity = btn.dataset.verbosity;
                 updateVerbosityStyles();
+                const label = selectedVerbosity.charAt(0).toUpperCase() + selectedVerbosity.slice(1);
+                startEvalBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">play_arrow</span> Start ' + label + ' Evaluation';
             }
         });
     });
@@ -613,7 +616,7 @@ ${modelOptionsHtml}
     // Start Evaluation button
     const startEvalBtn = document.getElementById('startEvalBtn');
     startEvalBtn.addEventListener('click', () => {
-        vscode.postMessage({ command: 'startEvaluation', model: modelSelect.value });
+        vscode.postMessage({ command: 'startEvaluation', model: modelSelect.value, verbosity: selectedVerbosity });
     });
 </script>
 </body></html>`;

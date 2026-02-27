@@ -86,9 +86,9 @@ jobs:
       - run: pnpm run lint
       - run: xvfb-run -a pnpm run test
       - name: Publish to VS Code Marketplace
-        run: pnpm exec vsce publish --no-git-tag-version -p ${{ secrets.VSCE_PAT }}
+        run: pnpm exec vsce publish --no-git-tag-version --no-dependencies -p ${{ secrets.VSCE_PAT }}
       - name: Package VSIX
-        run: pnpm exec vsce package --no-git-tag-version -o "gh-aw-inspector-${{ needs.release.outputs.tag }}.vsix"
+        run: pnpm exec vsce package --no-git-tag-version --no-dependencies -o "gh-aw-inspector-${{ needs.release.outputs.tag }}.vsix"
       - name: Publish to Open VSX Registry
         uses: HaaLeo/publish-vscode-extension@v2
         with:

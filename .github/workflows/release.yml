@@ -47,8 +47,14 @@ jobs:
       - name: Publish to VS Code Marketplace
         run: pnpm exec vsce publish --no-git-tag-version -p ${{ secrets.VSCE_PAT }}
       - name: Package VSIX
-        run: pnpm exec vsce package --no-git-tag-version -o gh-aw-inspector.vsix
+        run: pnpm exec vsce package --no-git-tag-version -o "gh-aw-inspector-${{ github.ref_name }}.vsix"
+      - name: Publish to Open VSX Registry
+        uses: HaaLeo/publish-vscode-extension@v2
+        with:
+          pat: ${{ secrets.OPEN_VSX_TOKEN }}
+          extensionFile: "gh-aw-inspector-${{ github.ref_name }}.vsix"
+          dependencies: false
       - name: Upload VSIX to GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: gh-aw-inspector.vsix
+          files: "gh-aw-inspector-${{ github.ref_name }}.vsix"

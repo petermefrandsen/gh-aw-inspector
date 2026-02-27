@@ -121,6 +121,39 @@ suite('SidebarProvider', () => {
         );
     });
 
+    test('only_loads_md_files_should_exclude_yml_and_yaml_when_present_in_workflows_dir', async () => {
+        const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+        assert.ok(workspaceFolder, 'Workspace folder must be open in the test host');
+
+        const ymlFile = vscode.Uri.joinPath(workspaceFolder.uri, '.github', 'workflows', 'test-regular-workflow.yml');
+        const yamlFile = vscode.Uri.joinPath(workspaceFolder.uri, '.github', 'workflows', 'test-regular-workflow.yaml');
+        await vscode.workspace.fs.writeFile(ymlFile, Buffer.from('name: test'));
+        await vscode.workspace.fs.writeFile(yamlFile, Buffer.from('name: test'));
+
+        try {
+            const provider = new SidebarProvider(workspaceFolder.uri);
+            const { mock, postedMessages } = makeMockWebviewView();
+            provider.resolveWebviewView(mock);
+
+            await new Promise(resolve => setTimeout(resolve, 2500));
+
+            const workflowMsg = postedMessages.find(m => m.type === 'workflows');
+            assert.ok(workflowMsg, '"workflows" message should have been posted');
+            const names: string[] = workflowMsg.value.map((v: any) => v.name);
+            assert.ok(
+                !names.includes('test-regular-workflow.yml'),
+                `Expected .yml files to be excluded, but got: ${names.join(', ')}`
+            );
+            assert.ok(
+                !names.includes('test-regular-workflow.yaml'),
+                `Expected .yaml files to be excluded, but got: ${names.join(', ')}`
+            );
+        } finally {
+            await vscode.workspace.fs.delete(ymlFile).then(() => { }, () => { });
+            await vscode.workspace.fs.delete(yamlFile).then(() => { }, () => { });
+        }
+    });
+
     // -----------------------------------------------------------------------
     // Message routing — refresh
     // -----------------------------------------------------------------------
